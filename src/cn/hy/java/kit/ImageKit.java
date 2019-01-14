@@ -6,6 +6,11 @@ import java.io.FileOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * 图片简单操作
+ *
+ * @author yanghy
+ */
 public class ImageKit {
 
     /**

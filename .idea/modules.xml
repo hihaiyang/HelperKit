@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/HelperKit.iml" filepath="$PROJECT_DIR$/HelperKit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/helperkit.iml" filepath="$PROJECT_DIR$/helperkit.iml" />
     </modules>
   </component>
 </project>

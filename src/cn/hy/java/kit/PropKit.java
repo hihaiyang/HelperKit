@@ -65,13 +65,13 @@ public class PropKit {
 	}
 
 	/**
-	 * 读取Properties文件
+	 * 读取Properties文件KEY值
 	 * 
 	 * @param fileName
 	 *            文件名
 	 * @param key
 	 *            key
-	 * @return value
+	 * @return String
 	 */
 	public static String getPropStr(String fileName, String key) {
 		if (null == fileName || "".equals(fileName)) {
@@ -84,5 +84,62 @@ public class PropKit {
 			p = getProp(fileName);
 		}
 		return p.getProperty(key);
+	}
+
+	/**
+	 * 读取Properties文件KEY值
+	 *
+	 * @param fileName
+	 * @param key
+	 * @return Boolean
+	 */
+	public static boolean getPropBoolean(String fileName, String key) {
+		try {
+			String value = getPropStr(fileName, key);
+			if (StringKit.isNull(value)) {
+				return false;
+			}
+			return Boolean.valueOf(value);
+		} catch (Exception e) {
+			return false
+		}
+	}
+
+	/**
+	 * 读取Properties文件KEY值
+	 *
+	 * @param fileName
+	 * @param key
+	 * @return Integer
+	 */
+	public static Integer getPropInteger(String fileName, String key) {
+		try {
+			String value = getPropStr(fileName, key);
+			if (StringKit.isNull(value)) {
+				return 0;
+			}
+			return Integer.valueOf(value);
+		} catch (Exception e) {
+			return 0;
+		}
+	}
+
+	/**
+	 * 读取Properties文件KEY值
+	 *
+	 * @param fileName
+	 * @param key
+	 * @return Long
+	 */
+	public static long getPropLong(String fileName, String key) {
+		try {
+			String value = getPropStr(fileName, key);
+			if (StringKit.isNull(value)) {
+				return 0L;
+			}
+			return Long.valueOf(value);
+		} catch (Exception e) {
+			return 0L;
+		}
 	}
 }

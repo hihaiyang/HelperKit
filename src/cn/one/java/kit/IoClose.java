@@ -1,4 +1,4 @@
-package cn.hy.java.kit;
+package cn.one.java.kit;
 
 import java.io.*;
 import java.util.zip.ZipInputStream;
@@ -9,7 +9,7 @@ import java.util.zip.ZipOutputStream;
  *
  * @author yanghy
  */
-public class CloseKit {
+public class IoClose {
     public static void close(FileInputStream fis) {
         try {
             if (null != fis) {
@@ -140,6 +140,16 @@ public class CloseKit {
         try {
             if (null != reader) {
                 reader.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void close(StringWriter sw) {
+        try {
+            if (null != sw) {
+                sw.close();
             }
         } catch (IOException e) {
             e.printStackTrace();

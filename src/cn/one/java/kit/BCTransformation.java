@@ -1,4 +1,4 @@
-package cn.hy.java.kit;
+package cn.one.java.kit;
 
 /**
  * 全/半角转换
@@ -58,4 +58,19 @@ public class BCTransformation {
         }
         return new String(c);
     }
+
+    /**
+     * 全角字符转半角字符
+     * @param c
+     * @return {Char}
+     */
+    public static char ToDBC(char c) {
+        if (c == '\u3000') {
+            return DBC_SPACE;
+        } else if (c > '\uFF00' && c < '\uFF5F') {
+            return (char)(c - CONVERT_STEP);
+        }
+        return c;
+    }
+
 }

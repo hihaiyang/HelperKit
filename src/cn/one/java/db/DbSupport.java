@@ -1,6 +1,6 @@
-package cn.hy.java.db;
+package cn.one.java.db;
 
-import cn.hy.java.kit.EncoderKit;
+import cn.one.java.kit.EncoderKit;
 
 /**
  * 数据库连接字符串信息
@@ -15,13 +15,13 @@ public class DbSupport {
      * @param ip 服务IP
      * @param port 端口
      * @param id ID或服务名 示例:ID:orcl SERVER_NAME:/orcl
-     * @return jdbc:oracle:this:@ip:port:orcl
+     * @return {String} jdbc:oracle:this:@ip:port:orcl
      */
     public static String getOracleUrl(String ip, String port, String id) {
         return "jdbc:oracle:thin:@".concat(ip).concat(":").concat(port).concat(id);
     }
 
-    // TODO Mysql
+    // TODO MySQL
     /**
      * 获取mysql连接字符串 端口默认3306字符编码默认UTF-8
      *
@@ -29,7 +29,7 @@ public class DbSupport {
      *            服务器IP
      * @param project
      *            数据库名称
-     * @return
+     * @return {String}
      */
     public static String getDefaultMySqlUrl(String ip, String project) {
         return "jdbc:mysql://".concat(ip).concat(":3306").concat("/")
@@ -48,10 +48,27 @@ public class DbSupport {
      *            登录用户
      * @param password
      *            登录密码
-     * @return
+     * @return {String}
      */
     public static String getDefaultMySqlUrl(String ip, String project, String user, String password) {
         return getDefaultMySqlUrl(ip, "3306", project, user, password, EncoderKit.Charset.UTF8.toString());
+    }
+
+    /**
+     * 获取MySQL连接字符串
+     * @param uri jdbc:mysql://127.0.0.1:3306/pro
+     * @param user
+     * @param password
+     * @return {String}
+     */
+    public static String getDefaultMySqlUrl(String uri, String user, String password) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(uri);
+        sb.append("?user=").append(user);
+        sb.append("&password=").append(password);
+        sb.append("&useUnicode=true");
+        sb.append("&characterEncoding=UTF-8");
+        return sb.toString();
     }
 
     /**
@@ -69,7 +86,7 @@ public class DbSupport {
      *            登录密码
      * @param encode
      *            编码方式
-     * @return
+     * @return {String}
      */
     public static String getDefaultMySqlUrl(String ip, String port, String project, String user, String password, String encode) {
         StringBuffer sb = new StringBuffer();
@@ -92,7 +109,7 @@ public class DbSupport {
      *            端口
      * @param db
      *            数据库名称
-     * @return
+     * @return {String}
      */
     public static String getDefaultSqlServerUrl(String host, String port, String db) {
         StringBuffer sb = new StringBuffer();
@@ -111,7 +128,7 @@ public class DbSupport {
      *            数据库实例名
      * @param db
      *            数据库名称
-     * @return
+     * @return {String}
      */
     public static String getSqlServerUrlByInstance(String host, String port, String instance, String db) {
         StringBuilder sb = new StringBuilder();
@@ -128,7 +145,7 @@ public class DbSupport {
      *            数据库实例名
      * @param db
      *            数据库名称
-     * @return
+     * @return {String}
      */
     public static String getSqlServerUrlByInstance(String host, String instance, String db) {
         StringBuilder sb = new StringBuilder();
@@ -146,7 +163,7 @@ public class DbSupport {
      *            端口
      * @param project
      *            数据库名称
-     * @return
+     * @return {String}
      */
     public static String getDefaultPostgresql(String host, String port, String project) {
         StringBuffer sb = new StringBuffer();

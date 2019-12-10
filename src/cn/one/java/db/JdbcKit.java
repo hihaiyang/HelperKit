@@ -1,11 +1,20 @@
-package cn.hy.java.db;
+package cn.one.java.db;
 
+import cn.one.java.kit.IoClose;
+
+import java.io.BufferedReader;
+import java.io.StringWriter;
 import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * JDBC帮助工具类 提供了oracle、mysql、sqlserver、db2、postgresql获取连接方法
  *
  * @author yanghy
+ * @describe
+ * 1、提供了oracle\mysql\sqlserver\db2\postgresql获取连接方法
+ * <br/>2、Connection\PreparedStatement\ResultSet关闭
  */
 public class JdbcKit {
 
@@ -157,15 +166,126 @@ public class JdbcKit {
         close(conn);
     }
 
+    public static void close(Connection... conns) {
+        if (null == conns) return;
+        for (Connection conn : conns) {
+            close(conn);
+        }
+    }
+
+    public static void close(PreparedStatement... pss) {
+        if (null == pss) return;
+        for (PreparedStatement ps : pss) {
+            close(ps);
+        }
+    }
+
+    public static void close(ResultSet... rss) {
+        if (null == rss) return;
+        for (ResultSet rs : rss) {
+            close(rs);
+        }
+    }
+
     /**
-     * 打印结果集字符串
+     * 获取ResultSet字段名称(有别名按别名返回)
+     * @param rs
+     * @return {String}
+     */
+    public static String getColumnLabels(ResultSet rs) {
+        String cols = "";
+        if (null == rs) return cols;
+        try {
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnCount = rsmd.getColumnCount();
+            for (int i=1; i<columnCount; i++) {
+                cols += "," + rsmd.getColumnLabel(i).toLowerCase();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+
+        }
+        return cols.replaceFirst(",", "");
+    }
+
+    /**
+     * 获取ResultSet原始字段名称
+     * @param rs
+     * @return {String}
+     */
+    public static String getColumnNames(ResultSet rs) {
+        String cols = "";
+        if (null == rs) return cols;
+        try {
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnCount = rsmd.getColumnCount();
+            for (int i=1; i<columnCount; i++) {
+                cols += "," + rsmd.getColumnName(i).toLowerCase();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+
+        }
+        return cols.replaceFirst(",", "");
+    }
+
+    /**
+     * ResultSet转Map
+     * <br/>
+     * 1、rs.next()
+     * 2、map = resultToMap(rs)
+     * @param rs
+     * @return {Map}
+     */
+    public static Map<String, String> resultToMap(ResultSet rs) {
+        Map<String, String> m = new HashMap<>();
+        if (null == rs) return m;
+        try {
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnCount = rsmd.getColumnCount();
+            for (int i=1; i<columnCount; i++) {
+                String value = "";
+                String columnTypeName = rsmd.getColumnTypeName(i);
+                if (columnTypeName.equals("BLOB")) {
+                    continue;
+                } else if (columnTypeName.equals("CLOB")) {
+                    BufferedReader br = null;
+                    StringWriter sw = null;
+                    try {
+                        br = new BufferedReader(rs.getClob(i).getCharacterStream());
+                        sw = new StringWriter();
+                        int c;
+                        while ((c=br.read()) != -1) {
+                            sw.write(c);
+                        }
+                        value = sw.toString();
+                    } catch (Exception e) {
+
+                    } finally {
+                        IoClose.close(br);
+                        IoClose.close(sw);
+                    }
+                } else {
+                    value = rs.getString(i);
+                }
+                m.put(rsmd.getColumnName(i).toLowerCase(), value);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            return m;
+        }
+    }
+
+    /**
+     * 打印输出
      *
      * @param rs
      */
     public static void printResultSet(ResultSet rs) {
-        if (rs == null) {
-            return;
-        }
+        if (rs == null) return;
         try {
             ResultSetMetaData meta = rs.getMetaData();
             int cols = meta.getColumnCount();

@@ -1,4 +1,4 @@
-package cn.hy.java.kit;
+package cn.one.java.kit;
 
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;

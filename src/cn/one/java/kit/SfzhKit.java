@@ -1,4 +1,4 @@
-package cn.hy.java.kit;
+package cn.one.java.kit;
 
 /**
  * 身份证号

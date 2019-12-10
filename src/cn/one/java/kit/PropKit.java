@@ -1,4 +1,4 @@
-package cn.hy.java.kit;
+package cn.one.java.kit;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,10 +33,10 @@ public class PropKit {
 		try {
 			is = PropKit.class.getClassLoader().getResourceAsStream(fileName);
 			p.load(is);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			CloseKit.close(is);
+			IoClose.close(is);
 		}
 		return p;
 	}
@@ -56,10 +56,10 @@ public class PropKit {
 		try {
 			is = PropKit.class.getClassLoader().getResourceAsStream(fileName);
 			p.load(new InputStreamReader(is, charsetName));
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			CloseKit.close(is);
+			IoClose.close(is);
 		}
 		return p;
 	}
@@ -93,7 +93,7 @@ public class PropKit {
 	 * @param key
 	 * @return Boolean
 	 */
-	public static boolean getPropBoolean(String fileName, String key) {
+	public static boolean getPropToBoolean(String fileName, String key) {
 		try {
 			String value = getPropStr(fileName, key);
 			if (StringKit.isNull(value)) {
@@ -101,7 +101,7 @@ public class PropKit {
 			}
 			return Boolean.valueOf(value);
 		} catch (Exception e) {
-			return false
+			return false;
 		}
 	}
 
@@ -112,7 +112,7 @@ public class PropKit {
 	 * @param key
 	 * @return Integer
 	 */
-	public static Integer getPropInteger(String fileName, String key) {
+	public static Integer getPropToInteger(String fileName, String key) {
 		try {
 			String value = getPropStr(fileName, key);
 			if (StringKit.isNull(value)) {
@@ -131,7 +131,7 @@ public class PropKit {
 	 * @param key
 	 * @return Long
 	 */
-	public static long getPropLong(String fileName, String key) {
+	public static long getPropToLong(String fileName, String key) {
 		try {
 			String value = getPropStr(fileName, key);
 			if (StringKit.isNull(value)) {
